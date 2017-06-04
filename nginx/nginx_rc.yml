@@ -1,0 +1,36 @@
+apiVersion: v1beta3
+kind: ReplicationController
+# Указываем имя ReplicationController
+metadata:
+  name: nginx-controller
+spec:
+  # Устанавливаем количество реплик
+  replicas: 3 
+  selector:
+    name: nginx
+  template:
+    metadata:
+      labels:
+        name: nginx
+    spec:
+      containers:
+        #Описываем контейнер
+        - name: nginx
+          image: nginx
+          #Пробрасываем порты
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          livenessProbe:
+            # включаем проверку работоспособности
+            enabled: true
+            type: http
+            # Время ожидания после запуска pod'ы до момента начала проверок
+            initialDelaySeconds: 30
+            TimeoutSeconds: 5
+            # http проверка
+            httpGet:
+              path: /
+              port: 80
+      portals:
+        - destination: nginx
