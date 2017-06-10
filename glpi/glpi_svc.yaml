@@ -2,12 +2,14 @@ kind: Service
 apiVersion: v1
 metadata:
   name: glpi-svc
+  labels:
+    name: glpi-svc
 spec:
   selector:
     app: glpi
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 9000
-  externalIPs:
-    - 192.168.7.107
+  - protocol: TCP
+    port: 80
+    nodePort: 30100
+    targetPort: 9000
+  type: NodePort

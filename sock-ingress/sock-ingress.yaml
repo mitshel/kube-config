@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: glpi-svc
+  namespace: default
+spec:
+  rules:
+  - host: glpi-k8s.dsnet.ru
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: glpi-svc
+          servicePort: 9001
+
