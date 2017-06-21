@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: glpi
 spec:
-  replicas: 3 # tells deployment to run 2 pods matching the template
+  replicas: 1 # tells deployment to run 2 pods matching the template
   template: # create pods using pod definition in this template
     metadata:
       # unlike pod-glpi.yaml, the name is not included in the meta data as a unique name is
