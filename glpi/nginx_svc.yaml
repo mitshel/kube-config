@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-sso
+  labels:
+    name: nginx-sso
+spec:
+  selector:
+    app: nginx-sso
+  ports:
+  - protocol: TCP
+    port: 80
+    nodePort: 30101
+    targetPort: 80
+  type: NodePort

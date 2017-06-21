@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: glpi
+  name: nginx-sso
 spec:
   replicas: 1 # tells deployment to run 2 pods matching the template
   template: # create pods using pod definition in this template
@@ -9,11 +9,10 @@ spec:
       # unlike pod-glpi.yaml, the name is not included in the meta data as a unique name is
       # generated from the deployment name
       labels:
-        app: glpi
+        app: nginx-sso
     spec:
-      #hostNetwork: true
       containers:
-      - name: glpi
-        image: dockhost:5000/glpi
+      - name: nginx-sso
+        image: dockhost:5000/nginx-sso
         ports:
-        - containerPort: 9000
+        - containerPort: 80

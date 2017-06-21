@@ -11,5 +11,5 @@ spec:
       - path: /
         backend:
           serviceName: glpi-svc
-          servicePort: 9001
+          servicePort: 30100
 
