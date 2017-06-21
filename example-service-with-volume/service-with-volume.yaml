@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-appserver
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-appserver
+    spec:
+      containers:
+        - name: web-source
+          image: gcr.io/test/web_source:v1
+          command: ["sh", "/copy_source.sh"]
+          volumeMounts:
+            - mountPath: /html
+              name: web-source-volume
+        - name: web-server
+          image: gcr.io/test/web_server:v1
+          ports:
+            - containerPort: 80
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: web-source-volume
+        - name: web-php
+          image: gcr.io/test/web_php:v1
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: web-source-volume
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns
+      volumes:
+        - name: web-source-volume
+          emptyDir: {}
+
