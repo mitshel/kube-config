@@ -16,3 +16,11 @@ spec:
         image: dockhost:5000/nginx-sso
         ports:
         - containerPort: 80
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: glpi-git-volume
+      volumes:
+      - name: glpi-git-volume
+        gitRepo:
+          repository: "git@github.com:glpi-project/glpi.git"
+          #revision: "502404dd5fb1a6e4df34f53720d49ae324e82004"
