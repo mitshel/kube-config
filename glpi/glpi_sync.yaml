@@ -1,0 +1,30 @@
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: glpi-sync
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate: 
+    spec:
+      template:
+        metadata:
+          labels:
+            app: glpi-sync
+        spec:
+          hostNetwork: true
+          containers:
+          - name: glpi-sync
+            image: dockhost:5000/odbc-container
+            args:
+            - python3
+            - /usr/src/glpi_sync.py
+            volumeMounts:
+            - mountPath: /usr/src/
+              name: glpi-git-volume
+          restartPolicy: OnFailure
+          volumes:
+          - name: glpi-git-volume
+            gitRepo:
+              repository: "http://mitshel@gitlab.dsnet.ru/mitshel/glpi_sync.git"
+              #revision: "502404dd5fb1a6e4df34f53720d49ae324e82004"
+

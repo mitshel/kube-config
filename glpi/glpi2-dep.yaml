@@ -1,0 +1,27 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: glpi
+spec:
+  replicas: 1 
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: glpi
+    spec:
+      #hostNetwork: true
+      containers:
+      - name: glpi
+        image: dockhost:5000/gtnn-php
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: glpi-git-volume
+          subPath: glpi
+      volumes:
+      - name: glpi-git-volume
+        gitRepo:
+          repository: "http://mitshel@gitlab.dsnet.ru/mitshel/glpi.git"
+          revision: "79685e1413f6d8a1c2785d8708429198171396b9"         
+          #directory: "."

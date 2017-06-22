@@ -5,6 +5,7 @@ metadata:
   labels:
     name: glpi
 spec:
+  sessionAffinity: "ClientIP"
   selector:
     app: glpi
   ports:

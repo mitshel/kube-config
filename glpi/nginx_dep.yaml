@@ -22,5 +22,6 @@ spec:
       volumes:
       - name: glpi-git-volume
         gitRepo:
-          repository: "git@github.com:glpi-project/glpi.git"
-          #revision: "502404dd5fb1a6e4df34f53720d49ae324e82004"
+          repository: "http://mitshel@gitlab.dsnet.ru/mitshel/glpi.git"
+          #repository: "git@github.com:glpi-project/glpi.git"
+          revision: "79685e1413f6d8a1c2785d8708429198171396b9"

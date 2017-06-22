@@ -1,0 +1,17 @@
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: glpi-sync
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate: 
+    spec:
+      template:
+        metadata:
+          labels:
+            app: glpi-sync
+        spec:
+          hostNetwork: true
+          containers:
+          - name: glpi-sync
+            image: dockhost:5000/glpi-sync
