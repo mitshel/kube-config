@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sopds
+spec:
+  replicas: 1 
+  template: 
+    metadata:
+      labels:
+        app: sopds
+    spec:
+      #hostNetwork: true
+      containers:
+      - name: sopds
+        image: dockhost:5000/sopds
+        ports:
+        - containerPort: 8001
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sopds
+  labels:
+    name: sopds
+spec:
+  sessionAffinity: "ClientIP"
+  selector:
+    app: sopds
+  ports:
+  - protocol: TCP
+    port: 8001
+    #nodePort: 30100
+    targetPort: 8001

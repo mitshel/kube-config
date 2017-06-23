@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: gtnn
+spec:
+  replicas: 1 
+  template: 
+    metadata:
+      labels:
+        app: gtnn
+    spec:
+      #hostNetwork: true
+      containers:
+      - name: gtnn
+        image: dockhost:5000/gtnn
+        ports:
+        - containerPort: 8002
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gtnn
+  labels:
+    name: gtnn
+spec:
+  sessionAffinity: "ClientIP"
+  selector:
+    app: gtnn
+  ports:
+  - protocol: TCP
+    port: 8002
+    #nodePort: 30100
+    targetPort: 8002
