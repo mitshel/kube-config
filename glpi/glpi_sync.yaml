@@ -11,7 +11,7 @@ spec:
           labels:
             app: glpi-sync
         spec:
-          hostNetwork: true
+          #hostNetwork: true
           restartPolicy: OnFailure
           containers:
           - name: glpi-sync
