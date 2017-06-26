@@ -1,0 +1,114 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: glpi
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      # unlike pod-glpi.yaml, the name is not included in the meta data as a unique name is
+      # generated from the deployment name
+      labels:
+        app: glpi
+    spec:
+      #hostNetwork: true
+      containers:
+      - name: glpi
+        image: dockhost:5000/glpi
+        ports:
+        - containerPort: 9000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: glpi
+  labels:
+    name: glpi
+spec:
+  sessionAffinity: "ClientIP"
+  selector:
+    app: glpi
+  ports:
+  - protocol: TCP
+    port: 9000
+    #nodePort: 30100
+    targetPort: 9000
+  #type: NodePort
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        ports:
+        - containerPort: 3306
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mysql
+  labels:
+    name: mysql
+spec:
+  selector:
+    app: mysql
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-sso
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      # unlike pod-glpi.yaml, the name is not included in the meta data as a unique name is
+      # generated from the deployment name
+      labels:
+        app: nginx-sso
+    spec:
+      containers:
+      - name: nginx-sso
+        image: dockhost:5000/nginx-sso
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: glpi-git-volume
+      volumes:
+      - name: glpi-git-volume
+        gitRepo:
+          repository: "http://mitshel@gitlab.dsnet.ru/mitshel/glpi.git"
+          #repository: "git@github.com:glpi-project/glpi.git"
+          revision: "79685e1413f6d8a1c2785d8708429198171396b9"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-sso
+  labels:
+    name: nginx-sso
+spec:
+  selector:
+    app: nginx-sso
+  ports:
+  - protocol: TCP
+    port: 80
+    nodePort: 30101
+    targetPort: 80
+  type: NodePort
