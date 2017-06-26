@@ -4,6 +4,9 @@ metadata:
   name: glpi-sync
 spec:
   schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate: 
     spec:
       template:
