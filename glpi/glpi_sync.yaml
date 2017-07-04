@@ -19,3 +19,4 @@ spec:
           containers:
           - name: glpi-sync
             image: dockhost:5000/glpi-sync
+            imagePullPolicy: IfNotPresent

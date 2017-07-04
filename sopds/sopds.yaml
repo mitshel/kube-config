@@ -13,6 +13,7 @@ spec:
       containers:
       - name: sopds
         image: dockhost:5000/sopds
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8001
 ---

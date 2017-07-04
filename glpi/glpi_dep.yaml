@@ -15,5 +15,6 @@ spec:
       containers:
       - name: glpi
         image: dockhost:5000/glpi
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000

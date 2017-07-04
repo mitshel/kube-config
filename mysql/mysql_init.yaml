@@ -10,6 +10,7 @@ spec:
       containers:
       - name: mysql-init
         image: mysql:latest
+        imagePullPolicy: IfNotPresent
         command: ["mysql"]
         args: ["-hmysql","-uroot","-proot","-Dmysql","-e","create database glpi; grant all privileges on glpi.* to 'glpi'@'%' identified by 'glpi';"]
       restartPolicy: Never

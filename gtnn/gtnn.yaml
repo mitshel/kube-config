@@ -13,6 +13,7 @@ spec:
       containers:
       - name: gtnn
         image: dockhost:5000/gtnn
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8002
 ---

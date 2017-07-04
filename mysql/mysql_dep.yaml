@@ -12,6 +12,8 @@ spec:
       containers:
       - name: mysql
         image: mysql:latest
+        imagePullPolicy: IfNotPresent
+        #image: dockhost:5000/mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: root
